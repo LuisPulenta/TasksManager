@@ -2,7 +2,7 @@
 using TasksManager.Backend.Data;
 using TasksManager.Shared.Entities;
 
-namespace TasksManager.Backend.Controllers
+namespace TaskManager.Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -15,12 +15,14 @@ namespace TasksManager.Backend.Controllers
             _context = context;
         }
 
+        //-----------------------------------------------------------------------------------------------------
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_context.MyTasks.ToList());
         }
 
+        //-----------------------------------------------------------------------------------------------------
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
@@ -32,6 +34,7 @@ namespace TasksManager.Backend.Controllers
             return Ok(task);
         }
 
+        //-----------------------------------------------------------------------------------------------------
         [HttpPost]
         public IActionResult Post(MyTask myTask)
         {
@@ -40,6 +43,7 @@ namespace TasksManager.Backend.Controllers
             return Ok(myTask);
         }
 
+        //-----------------------------------------------------------------------------------------------------
         [HttpPut]
         public IActionResult Put(MyTask myTask)
         {
@@ -58,6 +62,7 @@ namespace TasksManager.Backend.Controllers
             return Ok(task);
         }
 
+        //-----------------------------------------------------------------------------------------------------
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
