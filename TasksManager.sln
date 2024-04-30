@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.Shared", "Task
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.FrontEnd", "TasksManager.FrontEnd\TasksManager.FrontEnd.csproj", "{587951D4-7F6E-46BB-BCB3-EBBD8A45918E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasksManager.BackEnd", "TasksManager.BackEnd\TasksManager.BackEnd.csproj", "{B9E824DC-6A5C-4DDD-92FA-902A4F5A2382}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasksManager.BackEnd", "TasksManager.BackEnd\TasksManager.BackEnd.csproj", "{B9E824DC-6A5C-4DDD-92FA-902A4F5A2382}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
