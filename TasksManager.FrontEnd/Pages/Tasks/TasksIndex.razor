@@ -8,6 +8,7 @@
 }
 else
 {
+    <a class="btn btn-sm btn-outline-primary" href="/tasks/create">New Task</a>
     <table class="table">
         <thead>
             <tr>
@@ -26,6 +27,11 @@ else
                     <td>@task.Description</td>
                     <td>@task.Date</td>
                     <td>@task.IsCompleted</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-warning" href="/tasks/edit/@task.Id">Edit</a>
+                        <button class="btn btn-sm btn-outline-info" onclick="">Complete</button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="">Delete</button>
+                    </td>
                 </tr>
             }           
         </tbody>

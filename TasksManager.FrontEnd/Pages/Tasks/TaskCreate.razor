@@ -1,0 +1,19 @@
+﻿@page "/tasks/create"
+
+<h3>New Task</h3>
+
+<TaskForm MyTask="myTask" OnValidSubmit="Create" ReturnAction="Return"></TaskForm>
+
+@code {
+    private MyTask myTask = new();
+
+    private void Create()
+    {
+        
+    }
+
+    private void Return()
+    {
+
+    }
+}
