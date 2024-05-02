@@ -1,10 +1,13 @@
 ﻿@page "/tasks"
 @inject IRepository repository;
+@inject SweetAlertService sweetAlertService
+@inject NavigationManager navigationManager
+
 
 <h3>Tasks</h3>
 @if (Tasks == null)
 {
-    <p>Cargando...</p>
+    <p>Loading...</p>
 }
 else
 {
@@ -25,12 +28,12 @@ else
                 <tr>
                     <td>@task.Id</td>
                     <td>@task.Description</td>
-                    <td>@task.Date</td>
+                    <td>@($"{task.Date:dd/MM/yyyy}")</td>
                     <td>@task.IsCompleted</td>
                     <td>
                         <a class="btn btn-sm btn-outline-warning" href="/tasks/edit/@task.Id">Edit</a>
-                        <button class="btn btn-sm btn-outline-info" onclick="">Complete</button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="">Delete</button>
+                        <button class="btn btn-sm btn-outline-info" @onclick=@(() => CompleteAsync(task))>Complete</button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick=@(() => DeleteAsync(task))>Borrar</button>
                     </td>
                 </tr>
             }           
@@ -41,8 +44,68 @@ else
 @code {
     public List<MyTask>? Tasks { get; set; }
 
-
+    //--------------------------------------------------------------------------------------------------------
     protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    //--------------------------------------------------------------------------------------------------------
+    private async Task DeleteAsync(MyTask task)
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = $"¿Está seguro que quieres borrar la tarea: {task.Description}?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                CancelButtonText = "No",
+                ConfirmButtonText = "Si"
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHttp = await repository.DeleteAsync<MyTask>($"api/mytasks/{task.Id}");
+
+        if (!responseHttp.IsSuccess)
+        {
+            await sweetAlertService.FireAsync("Error", responseHttp.Message, SweetAlertIcon.Error);
+        }
+
+        await LoadAsync();
+
+        var toast = sweetAlertService.Mixin(new SweetAlertOptions
+            {
+                Toast = true,
+                Position = SweetAlertPosition.Center,
+                ShowCloseButton = true,
+                Timer = 3000,
+            });
+        await toast.FireAsync(icon: SweetAlertIcon.Info, message: "Task deleted succesfully");
+    }
+
+    //--------------------------------------------------------------------------------------------------------
+    private async Task CompleteAsync(MyTask task)
+    {
+        task.IsCompleted = !task.IsCompleted;
+
+        var responseHttp = await repository.PutAsync("api/MyTasks/", task);
+
+        if (!responseHttp.IsSuccess)
+        {
+            await sweetAlertService.FireAsync("Error", responseHttp.Message, SweetAlertIcon.Error);
+        }
+
+        await LoadAsync();
+    }
+
+    //--------------------------------------------------------------------------------------------------------
+    private async Task LoadAsync()
     {
         var response = await repository.GetAsync<List<MyTask>>("api/MyTasks");
         if (response.IsSuccess)
