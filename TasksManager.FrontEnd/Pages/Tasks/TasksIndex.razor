@@ -4,21 +4,21 @@
 @inject NavigationManager navigationManager
 
 
-<h3>Tasks</h3>
+<h3>Tareas</h3>
 @if (Tasks == null)
 {
-    <p>Loading...</p>
+    <p>Cargando...</p>
 }
 else
 {
-    <a class="btn btn-sm btn-outline-primary" href="/tasks/create">New Task</a>
+    <a class="btn btn-sm btn-outline-primary" href="/tasks/create">Nueva Tarea</a>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Description</th>
-                <th>Date</th>
-                <th>Is Completed</th>
+                <th>Descripción</th>
+                <th>Fecha</th>
+                <th>Completada</th>
                 <th></th>
             </tr>
         </thead>
@@ -31,8 +31,16 @@ else
                     <td>@($"{task.Date:dd/MM/yyyy}")</td>
                     <td>@task.IsCompleted</td>
                     <td>
-                        <a class="btn btn-sm btn-outline-warning" href="/tasks/edit/@task.Id">Edit</a>
-                        <button class="btn btn-sm btn-outline-info" @onclick=@(() => CompleteAsync(task))>Complete</button>
+                        <a class="btn btn-sm btn-outline-warning" href="/tasks/edit/@task.Id">Editar</a>
+                        @if (@task.IsCompleted)
+                        {
+                            <button class="btn btn-sm btn-outline-success" @onclick=@(() => CompleteAsync(task))> No Complet.</button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-sm btn-outline-info" @onclick=@(() => CompleteAsync(task))> Completada </button>
+                        }
+                        
                         <button class="btn btn-sm btn-outline-danger" @onclick=@(() => DeleteAsync(task))>Borrar</button>
                     </td>
                 </tr>
@@ -86,7 +94,7 @@ else
                 ShowCloseButton = true,
                 Timer = 3000,
             });
-        await toast.FireAsync(icon: SweetAlertIcon.Info, message: "Task deleted succesfully");
+        await toast.FireAsync(icon: SweetAlertIcon.Info, message: "Tarea borrada con éxito");
     }
 
     //--------------------------------------------------------------------------------------------------------

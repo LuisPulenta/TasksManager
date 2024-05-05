@@ -3,7 +3,7 @@
 @inject SweetAlertService sweetAlertService
 @inject NavigationManager navigationManager
 
-<h3>Task Edit</h3>
+<h3>Editar Tarea</h3>
 
 @if (myTask is null)
 {
@@ -48,7 +48,7 @@
                 ShowCloseButton = true,
                 Timer = 3000,
             });
-        await toast.FireAsync(icon: SweetAlertIcon.Info, message: "Task updated succesfully");
+        await toast.FireAsync(icon: SweetAlertIcon.Info, message: "Cambios guardados con 'exito");
     }
 
     //--------------------------------------------------------------------------------------------------------
